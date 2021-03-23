@@ -2,6 +2,8 @@ sentence-transformers
 protobuf
 deep_translator
 pandas
+spacy
+torchtext
 
 --find-links https://download.pytorch.org/whl/torch_stable.html
 torch
