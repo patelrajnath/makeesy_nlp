@@ -74,13 +74,27 @@ class Decoder(nn.Module):
         self.rnn = nn.LSTM(emb_dim, hid_dim, num_layers)
         self.translate = nn.Linear(hid_dim, output_dim)
 
-    def foward(self, y, hidden):
-        pass
+    def forward(self, target, hidden, cell):
+        traget = target.unsqeez(0)
+
+
+class Seq2Seq(nn.Module):
+    def __init__(self, encoder, decoder):
+        super(Seq2Seq, self).__init__()
+        self.encoder = encoder
+        self.decoder = decoder
+
+    def forward(self, src, trg=None):
+        hidden, cell = self.encoder(src)
+        bs, slen = src.size()
+
+        print(hidden.size())
 
 
 encoder = Encoder(input_dim, 16, 16, 1)
+decoder = Decoder(output_dim, 16, 16, 1)
+seq2seq = Seq2Seq(encoder, decoder)
 
 for batch in train_iter:
-    print(batch.src.size())
-    encoder(batch.src)
+    seq2seq(batch.src, batch.trg)
     exit()
